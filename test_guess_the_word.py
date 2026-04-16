@@ -2,6 +2,4 @@
 #CIS256 Spring 2026
 #Exercise Assignment 4
 
-# Part 2: Writing the Game
-
-import random
+# Part 3: Writing Tests
