@@ -27,6 +27,7 @@ def select_category():
     print("2. Creatures & Animals")
 
     while True:
+        # Calls for input to choose a category
         choice = input("Enter 1 or 2: ").strip()
 
         if choice == "1":
@@ -61,6 +62,7 @@ def process_guesses(word, user_guess, guessed_letters):
     guessed_letters.add(user_guess)
 
     if user_guess in word:
+        #finds out if the letter has more than one spot on the word and finds out where it should be added
         letter_position = [i for i, letter in enumerate(word) if letter == user_guess]
         return {
             'correct': True,
@@ -75,28 +77,35 @@ def process_guesses(word, user_guess, guessed_letters):
         }
 
 def grab_guess(guessed_letters):
+    #Asks user to guess a letter, makes it lowercase and takes away any spaces that mightve been added
     while True:
         user_guess = input("\nGuess a letter: ").lower().strip()
+        #if its a valid guess it returns it as a valid user_guess
         if valid_guess(user_guess, guessed_letters):
             return user_guess
         print("\ntry again, please enter a letter")
 
 def play_hangman():
+    #Runs the main game
+    #Declares some variables to keep track of throughout the functions
     word_list = select_category()
     word = select_random_word(word_list)
     guessed_letters = set()
     incorrect_guesses = 0
-    max_guesses = 6
+    max_guesses = 7
 
     print(display_word(word, guessed_letters))
-    
+
+    #While the user still has a valid number of guesses (7: Body, Head, LArm, RArm, LLeg, RLeg, Face)    
     while incorrect_guesses < max_guesses:
         print(f"Incorrect guesses left: {max_guesses - incorrect_guesses}")
 
+        #If user solves the hangman
         if all(letter in guessed_letters for letter in word):
             print(f"Congratulations the word was: {word}")
             return
         
+        #Tells the system if the guess was in the word, and responds it back to the user
         user_guess = grab_guess(guessed_letters)
         result = process_guesses(word, user_guess, guessed_letters)
 
@@ -106,11 +115,13 @@ def play_hangman():
             print(f"'{user_guess}' is NOT in the word")
             incorrect_guesses += 1
         
+        # Shows the current word
         print(result['display'])
 
     print(f"\nGame Over, the word was: {word}")
 
 def main():
+    # Runs the entire game system
     while True:
         play_hangman()
 
