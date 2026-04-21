@@ -22,16 +22,16 @@ answer_list_creatures = [
 
 def select_category():
     #Gives option to choose category
-    print("Choose your word category")
+    print("\nChoose your word category")
     print("1. Computer & Programming Terms")
     print("2. Creatures & Animals")
 
     while True:
         choice = input("Enter 1 or 2: ").strip()
 
-        if choice == 1:
+        if choice == "1":
             return answer_list_computers
-        elif choice == 2:
+        elif choice == "2":
             return answer_list_creatures
         else:
             print("Please choose value of 1 or 2")
@@ -79,7 +79,7 @@ def grab_guess(guessed_letters):
         user_guess = input("\nGuess a letter: ").lower().strip()
         if valid_guess(user_guess, guessed_letters):
             return user_guess
-        print("please enter one letter")
+        print("\ntry again, please enter a letter")
 
 def play_hangman():
     word_list = select_category()
@@ -90,3 +90,30 @@ def play_hangman():
 
     print(display_word(word, guessed_letters))
     
+    while incorrect_guesses < max_guesses:
+        print(f"Incorrect guesses left: {max_guesses - incorrect_guesses}")
+
+        if all(letter in guessed_letters for letter in word):
+            print(f"Congratulations the word was: {word}")
+            return
+        
+        user_guess = grab_guess(guessed_letters)
+        result = process_guesses(word, user_guess, guessed_letters)
+
+        if result['correct']:
+            print(f"'{user_guess}' is in the word")
+        else:
+            print(f"'{user_guess}' is NOT in the word")
+            incorrect_guesses += 1
+        
+        print(result['display'])
+
+    print(f"\nGame Over, the word was: {word}")
+
+def main():
+    while True:
+        play_hangman()
+
+if __name__ == "__main__":
+    main()
+ 
